@@ -14,7 +14,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = __d('cake_dev', 'CMGR');
+$cakeDescription = __d('cake_dev', 'Hone');
 // $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 ?>
 <!DOCTYPE html>
@@ -41,7 +41,7 @@ $cakeDescription = __d('cake_dev', 'CMGR');
 
 	 <nav class="teal">
       <div class="nav-wrapper container">
-        <a href="/" class="brand-logo">CMGR</a>
+        <a href="/" class="brand-logo">Hone</a>
         <ul id="nav-mobile" class="right side-nav">
           <!-- <li><a href="sass.html">Sass</a></li>
           <li><a href="components.html">Components</a></li> -->
