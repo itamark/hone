@@ -18,7 +18,7 @@
         }
     },
     "stylesheets": {
-        "main.css" : {
+        "cake.cmgr.css" : {
             "output_path": "app/webroot/css",
             "files": [
                 "app/webroot/src/less/main.less"

@@ -234,11 +234,11 @@ Component.Forms = function($) {
         config.form.submit(function(e){
 
             e.preventDefault();
+            console.log('prevented');
             $.ajax({
                     type: config.form.attr('method'),
                     url: config.form.attr('action'),
                     data: config.form.serialize(),
-                    dataType: "JSON",
                     success: function(response, textStatus, jqXHR) {
                         console.log('success');
                         switch (config.form.attr('id')) {
@@ -249,7 +249,6 @@ Component.Forms = function($) {
                                 loginForm();
                                 break;
                         }
-                        loginForm();
                     },
                     error: function(jqXHR, data, errorThrown) {
                         console.log(jqXHR);
@@ -259,16 +258,25 @@ Component.Forms = function($) {
                 });
         });
 
+        config.page.find('#ItemUrl').on('mouseup', function(){
+$.ajax({
+      url: "http://textance.herokuapp.com/title/"+config.page.find('#ItemUrl').val(),
+      complete: function(data) {
+        console.log(data.responseText);
+      }
+});
+        });
+
 
     };
 
     var loginForm = function(){
-        // window.location = '/';
+        window.location = '/';
     }
     var postItem = function(response){
         console.log(response);
-        config.form.after('<div class="card"><div class="card-content"><span class="card-title grey-text">'+response.Item.description+'</span></div></div>');
-        
+        // config.form.after('<div class="card"><div class="card-content"><span class="card-title grey-text">'+response.Item.description+'</span></div></div>');
+        window.location = 'items/view/'+response;
     }
 
 

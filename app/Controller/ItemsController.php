@@ -25,7 +25,7 @@ class ItemsController extends AppController {
 		$users = $this->User->find('list');
 		 $topics = $this->Item->Topic->find('list');
 		$this->set(compact('users', 'topics'));
-
+		$this->set('itemsjson', json_encode($this->Item->find()));
 	}
 
 /**
@@ -54,7 +54,9 @@ class ItemsController extends AppController {
 			if ($this->Item->save($this->request->data)) {
 				$this->Session->setFlash(__('The item has been saved.'));
 header('Content-type: application/json');
-				die(json_encode($this->request->data));
+				// die(json_encode($this->request->data));
+				die(json_encode($this->Item->id));
+
 			} else {
 				$this->Session->setFlash(__('The item could not be saved. Please, try again.'));
 			}

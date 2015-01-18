@@ -30,6 +30,11 @@
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
+	/* Item Page */
+	Router::connect('/item/*', array('controller' => 'items', 'action' => 'view'));
+
+	
+
 	/* Profile page */
 	Router::connect('/me', array('controller' => 'users', 'action' => 'profile'));
 	/* Edit profile page */
