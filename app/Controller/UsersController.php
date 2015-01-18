@@ -1,5 +1,11 @@
 <?php
+
+App::uses('AppController', 'Controller');
+
+
+
 class UsersController extends AppController {
+
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('add', 'logout', 'change_password', 'remember_password', 'remember_password_step_2');
@@ -42,6 +48,8 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('Invalid username or password, try again'), 'flash_fail');
 			}
 		}
+				$this->set('label', 'Login');
+
 	}
 
 	public function logout() {
@@ -78,14 +86,14 @@ class UsersController extends AppController {
 					# Store log
 					CakeLog::info('The user '.AuthComponent::user('username').' (ID: '.AuthComponent::user('id').') registered user (ID: '.$this->User->id.')','users');
 				}
-				$this->Session->setFlash(__('The user has been saved'), 'flash_success');
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('Thanks for registering! You may log in'), 'flash_success');
+				$this->redirect('/');
 			} else {
 				# Create a loop with validation errors
 				$this->Error->set($this->User->invalidFields());
 			}
 		}
-		$this->set('label', 'Register user');
+		$this->set('label', 'Let\'s get started!');
 		$this->render('_form');
 	}
 
@@ -143,12 +151,12 @@ class UsersController extends AppController {
 			CakeLog::info('The user '.AuthComponent::user('username').' (ID: '.AuthComponent::user('id').') deleted user (ID: '.$this->User->id.')','users');
 
 			$this->Session->setFlash(__('User deleted'), 'flash_success');
-			$this->redirect(array('action' => 'index'));
+			$this->redirect('/home');
 		}
 
 		$this->Session->setFlash(__('User was not deleted'), 'flash_fail');
 
-		$this->redirect(array('action' => 'index'));
+		$this->redirect('/');
 	}
 
 

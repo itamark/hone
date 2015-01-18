@@ -21,16 +21,16 @@ class CakeStrapFormHelper extends FormHelper {
 	
 	public function input($fieldName, $options = array())
 	{	
-		$optionsDefault = array('class'=>'form-control','div'=>'form-group');
+		$optionsDefault = array('class'=>'form-control','div'=>'input-field');
 		$options = array_merge_recursive($optionsDefault, $options);
 		if (sizeof($options['div']) > 1) {
 			$options['div'] = join(' ',$options['div']);
 		}
 
-		if (!isset($options['placeholder'])) {
-			$label = (isset($options['label'])) ? $options['label'] : Inflector::humanize($fieldName);
-			$options['placeholder'] = $label;
-		}
+		// if (!isset($options['placeholder'])) {
+		// 	$label = (isset($options['label'])) ? $options['label'] : Inflector::humanize($fieldName);
+		// 	$options['placeholder'] = $label;
+		// }
 
 		if (isset($options['helpText'])) {
 			$options['after'] ='<span class="help-block">' . $options['helpText'] . '</span>';
@@ -46,7 +46,7 @@ class CakeStrapFormHelper extends FormHelper {
 
 	public function end($string ='Salvar',$options = array()) {
 		
-		$optionsDefault = array('class'=>'btn btn-primary','div'=>'form-group');
+		$optionsDefault = array('class'=>'btn btn-primary','div'=>'input-field');
 		$options = array_merge_recursive($optionsDefault, $options);
 
 		$retorno  = parent::submit($string,$options);

@@ -74,16 +74,6 @@ if ($displayField): ?>
 
 <?php endif;
 
-if (!empty($actsAs)): ?>
-/**
- * Behaviors
- *
- * @var array
- */
-	public $actsAs = array(<?php echo "\n\t"; foreach ($actsAs as $behavior): echo "\t"; var_export($behavior); echo ",\n\t"; endforeach; ?>);
-
-<?php endif;
-
 if (!empty($validate)):
 	echo "/**\n * Validation rules\n *\n * @var array\n */\n";
 	echo "\tpublic \$validate = array(\n";
@@ -179,6 +169,8 @@ if (!empty($associations['hasAndBelongsToMany'])):
 		$out .= "\t\t\t'limit' => '',\n";
 		$out .= "\t\t\t'offset' => '',\n";
 		$out .= "\t\t\t'finderQuery' => '',\n";
+		$out .= "\t\t\t'deleteQuery' => '',\n";
+		$out .= "\t\t\t'insertQuery' => ''\n";
 		$out .= "\t\t)";
 		if ($i + 1 < $habtmCount) {
 			$out .= ",";

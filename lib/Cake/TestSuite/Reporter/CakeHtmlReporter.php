@@ -97,7 +97,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 			$urlExtra = '&plugin=' . $plugin;
 		}
 
-		if (count($testCases) < 1) {
+		if (1 > count($testCases)) {
 			$buffer .= "<strong>EMPTY</strong>";
 		}
 

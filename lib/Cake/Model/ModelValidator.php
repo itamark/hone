@@ -21,7 +21,6 @@
  */
 
 App::uses('CakeValidationSet', 'Model/Validator');
-App::uses('Hash', 'Utility');
 
 /**
  * ModelValidator object encapsulates all methods related to data validations for a model
@@ -395,11 +394,11 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 		}
 		unset($fieldList);
 
-		if (empty($whitelist) || Hash::dimensions($whitelist) > 1) {
+		$validateList = array();
+		if (empty($whitelist)) {
 			return $this->_fields;
 		}
 
-		$validateList = array();
 		$this->validationErrors = array();
 		foreach ((array)$whitelist as $f) {
 			if (!empty($this->_fields[$f])) {

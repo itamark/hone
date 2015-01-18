@@ -22,7 +22,6 @@
  * @since         CakePHP(tm) v 0.10.8.2117
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
 /**
  * Cache Engine Configuration
  * Default settings provided below
@@ -97,7 +96,6 @@
  *	));
  */
 Cache::config('default', array('engine' => 'File'));
-
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  *
@@ -123,7 +121,6 @@ Cache::config('default', array('engine' => 'File'));
  * ));
  *
  */
-
 /**
  * Custom Inflector rules, can be set to correctly pluralize or singularize table, model, controller names or whatever other
  * string is passed to the inflection functions
@@ -132,7 +129,6 @@ Cache::config('default', array('engine' => 'File'));
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  *
  */
-
 /**
  * Plugins need to be loaded manually, you can either load them one by one or all of them in a single call
  * Uncomment one of the lines below, as you need. make sure you read the documentation on CakePlugin to use more
@@ -148,16 +144,17 @@ Cache::config('default', array('engine' => 'File'));
     'routes' => true
     )));*/
 
+
+App::uses('AuthComponent', 'Controller/Component');
 if (!Configure::read('Application.status')) {
 	Configure::write(
 		'Application', array(
-			'name' => 'CakeStrap v0.7',
+			'name' => 'Hone',
 			'status'=> 0,
 		)
 	);
-	CakePlugin::load('Install', array('routes' => true));
+	// CakePlugin::load('Install', array('routes' => true));
 }
-
 /**
 * Choose your application theme
 * The list of supported themes are:
@@ -179,10 +176,7 @@ Configure::write(
 		'theme' => 'default'
 	)
 );
-
-
 App::uses('CakeEmail', 'Network/Email');
-
 /**
  * Configure log to store edits in users
  */
@@ -192,7 +186,6 @@ CakeLog::config('users', array(
 	'scopes' => array('users'),
 	'file' => 'users.log'
 ));
-
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
  *
@@ -213,7 +206,6 @@ Configure::write('Dispatcher.filters', array(
 	'AssetDispatcher',
 	'CacheDispatcher'
 ));
-
 /**
  * Configures default file logging options
  */

@@ -1,5 +1,5 @@
 <?php if(!Configure::read('Application.maintenance')){?>
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<!-- Brand and toggle get grouped for better mobile display -->
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -17,7 +17,7 @@
 	<!-- Collect the nav links, forms, and other content for toggling -->
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 
-		<?php if(AuthComponent::user('id')){?>
+		<?php if(AuthComponent::user('id') && (AuthComponent::user('role') == 'admin')){?>
 			<ul class="nav navbar-nav side-nav">
 				<li class="<?php echo $this->params->params['controller'] == 'pages' ? 'active' : ''?>"><a href="<?php echo $this->params->webroot?>home"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 				<li class="dropdown <?php echo $this->params->params['controller'] == 'users' ? 'active' : ''?>">

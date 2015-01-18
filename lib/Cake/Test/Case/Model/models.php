@@ -2039,9 +2039,7 @@ class CallbackPostTestModel extends CakeTestModel {
 /**
  * beforeValidate callback
  *
- * @param array $options Options passed from Model::save().
- * @return boolean True if validate operation should continue, false to abort
- * @see Model::save()
+ * @return boolean
  */
 	public function beforeValidate($options = array()) {
 		return $this->beforeValidateReturn;
@@ -2519,6 +2517,7 @@ class MyCategoriesMyProduct extends CakeTestModel {
 	public $name = 'MyCategoriesMyProduct';
 }
 
+
 /**
  * NumberTree class
  *
@@ -2731,7 +2730,7 @@ class AfterTree extends NumberTree {
  */
 	public $actsAs = array('Tree');
 
-	public function afterSave($created, $options = array()) {
+	public function afterSave($created) {
 		if ($created && isset($this->data['AfterTree'])) {
 			$this->data['AfterTree']['name'] = 'Six and One Half Changed in AfterTree::afterSave() but not in database';
 		}
@@ -3473,7 +3472,7 @@ class TransactionTestModel extends CakeTestModel {
 
 	public $useTable = 'samples';
 
-	public function afterSave($created, $options = array()) {
+	public function afterSave($created) {
 		$data = array(
 			array('apple_id' => 1, 'name' => 'sample6'),
 		);
@@ -3488,7 +3487,7 @@ class TransactionManyTestModel extends CakeTestModel {
 
 	public $useTable = 'samples';
 
-	public function afterSave($created, $options = array()) {
+	public function afterSave($created) {
 		$data = array(
 			array('apple_id' => 1, 'name' => 'sample6'),
 		);
@@ -4982,9 +4981,7 @@ class CustomArticle extends AppModel {
 /**
  * Alters title data
  *
- * @param array $options Options passed from Model::save().
- * @return boolean True if validate operation should continue, false to abort
- * @see Model::save()
+ * @return void
  */
 	public function beforeValidate($options = array()) {
 		$this->data[$this->alias]['title'] = 'foo';

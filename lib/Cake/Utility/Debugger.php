@@ -203,7 +203,7 @@ class Debugger {
  * @param integer $line Line that triggered the error
  * @param array $context Context
  * @return boolean true if error was handled
- * @deprecated Will be removed in 3.0. This function is superseded by Debugger::outputError().
+ * @deprecated This function is superseded by Debugger::outputError()
  */
 	public static function showError($code, $description, $file = null, $line = null, $context = null) {
 		$self = Debugger::getInstance();
@@ -500,8 +500,6 @@ class Debugger {
 				return strtolower(gettype($var));
 			case 'null':
 				return 'null';
-			case 'unknown':
-				return 'unknown';
 			default:
 				return self::_object($var, $depth - 1, $indent + 1);
 		}
@@ -593,20 +591,24 @@ class Debugger {
 			if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
 				$ref = new ReflectionObject($var);
 
-				$filters = array(
-					ReflectionProperty::IS_PROTECTED => 'protected',
-					ReflectionProperty::IS_PRIVATE => 'private',
-				);
-				foreach ($filters as $filter => $visibility) {
-					$reflectionProperties = $ref->getProperties($filter);
-					foreach ($reflectionProperties as $reflectionProperty) {
-						$reflectionProperty->setAccessible(true);
-						$property = $reflectionProperty->getValue($var);
+				$reflectionProperties = $ref->getProperties(ReflectionProperty::IS_PROTECTED);
+				foreach ($reflectionProperties as $reflectionProperty) {
+					$reflectionProperty->setAccessible(true);
+					$property = $reflectionProperty->getValue($var);
 
-						$value = self::_export($property, $depth - 1, $indent);
-						$key = $reflectionProperty->name;
-						$props[] = sprintf('[%s] %s => %s', $visibility, $key, $value);
-					}
+					$value = self::_export($property, $depth - 1, $indent);
+					$key = $reflectionProperty->name;
+					$props[] = "[protected] $key => " . $value;
+				}
+
+				$reflectionProperties = $ref->getProperties(ReflectionProperty::IS_PRIVATE);
+				foreach ($reflectionProperties as $reflectionProperty) {
+					$reflectionProperty->setAccessible(true);
+					$property = $reflectionProperty->getValue($var);
+
+					$value = self::_export($property, $depth - 1, $indent);
+					$key = $reflectionProperty->name;
+					$props[] = "[private] $key => " . $value;
 				}
 			}
 
@@ -706,7 +708,7 @@ class Debugger {
 		$self = Debugger::getInstance();
 		$data = null;
 
-		if ($format === null) {
+		if (is_null($format)) {
 			return Debugger::outputAs();
 		}
 
@@ -815,7 +817,7 @@ class Debugger {
 		if (is_object($var)) {
 			return get_class($var);
 		}
-		if ($var === null) {
+		if (is_null($var)) {
 			return 'null';
 		}
 		if (is_string($var)) {
@@ -846,11 +848,11 @@ class Debugger {
  */
 	public static function checkSecurityKeys() {
 		if (Configure::read('Security.salt') === 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi') {
-			trigger_error(__d('cake_dev', 'Please change the value of %s in %s to a salt value specific to your application.', '\'Security.salt\'', 'APP/Config/core.php'), E_USER_NOTICE);
+			trigger_error(__d('cake_dev', 'Please change the value of \'Security.salt\' in app/Config/core.php to a salt value specific to your application'), E_USER_NOTICE);
 		}
 
 		if (Configure::read('Security.cipherSeed') === '76859309657453542496749683645') {
-			trigger_error(__d('cake_dev', 'Please change the value of %s in %s to a numeric (digits only) seed value specific to your application.', '\'Security.cipherSeed\'', 'APP/Config/core.php'), E_USER_NOTICE);
+			trigger_error(__d('cake_dev', 'Please change the value of \'Security.cipherSeed\' in app/Config/core.php to a numeric (digits only) seed value specific to your application'), E_USER_NOTICE);
 		}
 	}
 

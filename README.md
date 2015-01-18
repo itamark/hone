@@ -1,69 +1,39 @@
-# CakeStrap v 0.7.1
----
-CakeStrap is a bootstrap for CakePHP - HTML5 CakePHP2.x Bootstrap3.0!
+CakePHP
+=======
 
+[![CakePHP](http://cakephp.org/img/cake-logo.png)](http://www.cakephp.org)
 
-### Video tutorial ( Portuguese )
-[http://youtu.be/m4FtYIS3Rm8][]
-[http://youtu.be/m4FtYIS3Rm8]: http://youtu.be/m4FtYIS3Rm8
+CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC.
+Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility.
 
+Some Handy Links
+----------------
 
-### Features
-##### Front-end
-1. Responsive Web Design
-2. jQuery 1.10.2 Stable **(NEW)**
-3. Modernizr
-5. Twitter Bootstrap v3.0.0 **(NEW)**
-6. Multi-Language ( English and Portuguese )
+[CakePHP](http://www.cakephp.org) - The rapid development PHP framework
 
-##### Back-end
-1. CakePHP 2.4.1 Security Authentication **(NEW)**
-2. Users CRUD
-3. Remember password with email send
-4. Automatic inclusion of  javascript and css files depending of the current controller and action ( Tutorial below )
+[Cookbook](http://book.cakephp.org) - THE Cake user documentation; start learning here!
 
+[Plugins](http://plugins.cakephp.org/) - A repository of extensions to the framework
 
-##### Modules
-1. [Photos end videos gallery](https://github.com/hugodias/CakeStrap-Manager-Module)
+[The Bakery](http://bakery.cakephp.org) - Tips, tutorials and articles
 
+[API](http://api.cakephp.org) - A reference to Cake's classes
 
-## Quick start
+[CakePHP TV](http://tv.cakephp.org) - Screen casts from events and video tutorials
 
-- [Download](https://github.com/hugodias/cakeStrap/archive/master.zip) or clone this repository
-- Extract the cakeStrap folder in your web server
-- Go to [http://localhost/cakeStrap](http://localhost/cakeStrap) and follow the instructions
+[The Cake Software Foundation](http://cakefoundation.org/) - promoting development related to CakePHP
 
-## Manually Installation
-* Rename the `app/Config/config.php.install` file to `app/Config/config.php` and still in this file change the *$config['Application']['status']* to **true**
-* Rename the `app/Config/database.php.default` file to `app/Config/database.php` and configure your database credentials
-* Create the users table in your database with this Schema: [https://github.com/hugodias/cakeStrap/blob/master/app/Config/Schema/schema.php](https://github.com/hugodias/cakeStrap/blob/master/app/Config/Schema/schema.php
-)
+Get Support!
+------------
 
-## Automatic inclusion of JS and CSS
-CakeStrap has a JS and CSS folder structure allowing to automatic load files for each action of each controller.
-For example, if you have this JS structure folder:
+[Our Google Group](https://groups.google.com/group/cake-php) - community mailing list and forum
 
-<pre>
-/js
-	/pages
-		/home.js
-</pre>
+[#cakephp](http://webchat.freenode.net/?channels=#cakephp) on irc.freenode.net - Come chat with us, we have cake.
 
-This script will be automatic loaded when the user is in controller `pages` and in action `home`
+[Q & A](http://ask.cakephp.org/) - Ask questions here, all questions welcome
 
-The same structure exists for `CSS` files.
+[Lighthouse](https://cakephp.lighthouseapp.com/) - Got issues? Please tell us!
 
-## Internationalization
+[![Bake Status](https://secure.travis-ci.org/cakephp/cakephp.png?branch=master)](http://travis-ci.org/cakephp/cakephp)
 
-Currently cakeStrap supports two languages, **English** and **Portuguese**. To enable the Portuguese language as the main just add the following line in your `app/Controllers/AppController.php` at `beforeFilter` action:
-<pre>
-Configure::write('Config.language', 'por');
-</pre>
-
-## Deploy
-[Lee Graham](https://github.com/leegraham) created a easy way do deploy CakeStrap to OpenShift, check it out: [cakeStrap Openshift](https://github.com/leegraham/cakeStrap-example)
-
-## Questions / Bugs
-
-Have a question or found a bug? Please create an issue [here][] on GitHub!
-[here]: https://github.com/hugodias/cakestrap/issues
+![Cake Power](https://raw.github.com/cakephp/cakephp/master/lib/Cake/Console/Templates/skel/webroot/img/cake.power.gif)

@@ -93,7 +93,6 @@ class HttpResponseTest extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
-		parent::setUp();
 		$this->HttpResponse = new TestHttpResponse();
 	}
 

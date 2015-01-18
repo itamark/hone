@@ -44,7 +44,7 @@ class ExtractTask extends AppShell {
 	protected $_files = array();
 
 /**
- * Merge all domain and category strings into the default.pot file
+ * Merge all domains string into the default.pot file
  *
  * @var boolean
  */
@@ -72,7 +72,7 @@ class ExtractTask extends AppShell {
 	protected $_tokens = array();
 
 /**
- * Extracted strings indexed by category and domain.
+ * Extracted strings indexed by domain.
  *
  * @var array
  */
@@ -222,7 +222,7 @@ class ExtractTask extends AppShell {
 			$this->_merge = !(strtolower($this->params['merge']) === 'no');
 		} else {
 			$this->out();
-			$response = $this->in(__d('cake_console', 'Would you like to merge all domain and category strings into the default.pot file?'), array('y', 'n'), 'n');
+			$response = $this->in(__d('cake_console', 'Would you like to merge all domains strings into the default.pot file?'), array('y', 'n'), 'n');
 			$this->_merge = strtolower($response) === 'y';
 		}
 
@@ -244,21 +244,20 @@ class ExtractTask extends AppShell {
  *
  * Takes care of duplicate translations
  *
- * @param string $category
  * @param string $domain
  * @param string $msgid
  * @param array $details
  * @return void
  */
-	protected function _addTranslation($category, $domain, $msgid, $details = array()) {
-		if (empty($this->_translations[$category][$domain][$msgid])) {
-			$this->_translations[$category][$domain][$msgid] = array(
+	protected function _addTranslation($domain, $msgid, $details = array()) {
+		if (empty($this->_translations[$domain][$msgid])) {
+			$this->_translations[$domain][$msgid] = array(
 				'msgid_plural' => false
 			);
 		}
 
 		if (isset($details['msgid_plural'])) {
-			$this->_translations[$category][$domain][$msgid]['msgid_plural'] = $details['msgid_plural'];
+			$this->_translations[$domain][$msgid]['msgid_plural'] = $details['msgid_plural'];
 		}
 
 		if (isset($details['file'])) {
@@ -266,7 +265,7 @@ class ExtractTask extends AppShell {
 			if (isset($details['line'])) {
 				$line = $details['line'];
 			}
-			$this->_translations[$category][$domain][$msgid]['references'][$details['file']][] = $line;
+			$this->_translations[$domain][$msgid]['references'][$details['file']][] = $line;
 		}
 	}
 
@@ -308,7 +307,7 @@ class ExtractTask extends AppShell {
 			->addOption('app', array('help' => __d('cake_console', 'Directory where your application is located.')))
 			->addOption('paths', array('help' => __d('cake_console', 'Comma separated list of paths.')))
 			->addOption('merge', array(
-				'help' => __d('cake_console', 'Merge all domain and category strings into the default.po file.'),
+				'help' => __d('cake_console', 'Merge all domain strings into the default.po file.'),
 				'choices' => array('yes', 'no')
 			))
 			->addOption('output', array('help' => __d('cake_console', 'Full path to output directory.')))
@@ -369,10 +368,10 @@ class ExtractTask extends AppShell {
 			$this->_parse('__', array('singular'));
 			$this->_parse('__n', array('singular', 'plural'));
 			$this->_parse('__d', array('domain', 'singular'));
-			$this->_parse('__c', array('singular', 'category'));
-			$this->_parse('__dc', array('domain', 'singular', 'category'));
+			$this->_parse('__c', array('singular'));
+			$this->_parse('__dc', array('domain', 'singular'));
 			$this->_parse('__dn', array('domain', 'singular', 'plural'));
-			$this->_parse('__dcn', array('domain', 'singular', 'plural', 'count', 'category'));
+			$this->_parse('__dcn', array('domain', 'singular', 'plural'));
 		}
 	}
 
@@ -380,12 +379,11 @@ class ExtractTask extends AppShell {
  * Parse tokens
  *
  * @param string $functionName Function name that indicates translatable string (e.g: '__')
- * @param array $map Array containing what variables it will find (e.g: category, domain, singular, plural)
+ * @param array $map Array containing what variables it will find (e.g: domain, singular, plural)
  * @return void
  */
 	protected function _parse($functionName, $map) {
 		$count = 0;
-		$categories = array('LC_ALL', 'LC_COLLATE', 'LC_CTYPE', 'LC_MONETARY', 'LC_NUMERIC', 'LC_TIME', 'LC_MESSAGES');
 		$tokenCount = count($this->_tokens);
 
 		while (($tokenCount - $count) > 1) {
@@ -415,9 +413,6 @@ class ExtractTask extends AppShell {
 
 				if ($mapCount == count($strings)) {
 					extract(array_combine($map, $strings));
-					$category = isset($category) ? $category : 6;
-					$category = intval($category);
-					$categoryName = $categories[$category];
 					$domain = isset($domain) ? $domain : 'default';
 					$details = array(
 						'file' => $this->_file,
@@ -426,7 +421,7 @@ class ExtractTask extends AppShell {
 					if (isset($plural)) {
 						$details['msgid_plural'] = $plural;
 					}
-					$this->_addTranslation($categoryName, $domain, $singular, $details);
+					$this->_addTranslation($domain, $singular, $details);
 				} else {
 					$this->_markerError($this->_file, $line, $functionName, $count);
 				}
@@ -505,7 +500,7 @@ class ExtractTask extends AppShell {
  * @param string $domain default domain to bind the validations to
  * @return void
  */
-	protected function _processValidationRules($field, $rules, $file, $domain, $category = 'LC_MESSAGES') {
+	protected function _processValidationRules($field, $rules, $file, $domain) {
 		if (!is_array($rules)) {
 			return;
 		}
@@ -531,7 +526,7 @@ class ExtractTask extends AppShell {
 					'file' => $file,
 					'line' => 'validation for field ' . $field
 				);
-				$this->_addTranslation($category, $domain, $msgid, $details);
+				$this->_addTranslation($domain, $msgid, $details);
 			}
 		}
 	}
@@ -544,33 +539,31 @@ class ExtractTask extends AppShell {
 	protected function _buildFiles() {
 		$paths = $this->_paths;
 		$paths[] = realpath(APP) . DS;
-		foreach ($this->_translations as $category => $domains) {
-			foreach ($domains as $domain => $translations) {
-				foreach ($translations as $msgid => $details) {
-					$plural = $details['msgid_plural'];
-					$files = $details['references'];
-					$occurrences = array();
-					foreach ($files as $file => $lines) {
-						$lines = array_unique($lines);
-						$occurrences[] = $file . ':' . implode(';', $lines);
-					}
-					$occurrences = implode("\n#: ", $occurrences);
-					$header = '#: ' . str_replace(DS, '/', str_replace($paths, '', $occurrences)) . "\n";
+		foreach ($this->_translations as $domain => $translations) {
+			foreach ($translations as $msgid => $details) {
+				$plural = $details['msgid_plural'];
+				$files = $details['references'];
+				$occurrences = array();
+				foreach ($files as $file => $lines) {
+					$lines = array_unique($lines);
+					$occurrences[] = $file . ':' . implode(';', $lines);
+				}
+				$occurrences = implode("\n#: ", $occurrences);
+				$header = '#: ' . str_replace(DS, '/', str_replace($paths, '', $occurrences)) . "\n";
 
-					if ($plural === false) {
-						$sentence = "msgid \"{$msgid}\"\n";
-						$sentence .= "msgstr \"\"\n\n";
-					} else {
-						$sentence = "msgid \"{$msgid}\"\n";
-						$sentence .= "msgid_plural \"{$plural}\"\n";
-						$sentence .= "msgstr[0] \"\"\n";
-						$sentence .= "msgstr[1] \"\"\n\n";
-					}
+				if ($plural === false) {
+					$sentence = "msgid \"{$msgid}\"\n";
+					$sentence .= "msgstr \"\"\n\n";
+				} else {
+					$sentence = "msgid \"{$msgid}\"\n";
+					$sentence .= "msgid_plural \"{$plural}\"\n";
+					$sentence .= "msgstr[0] \"\"\n";
+					$sentence .= "msgstr[1] \"\"\n\n";
+				}
 
-					$this->_store($category, $domain, $header, $sentence);
-					if (($category !== 'LC_MESSAGES' || $domain !== 'default') && $this->_merge) {
-						$this->_store('LC_MESSAGES', 'default', $header, $sentence);
-					}
+				$this->_store($domain, $header, $sentence);
+				if ($domain !== 'default' && $this->_merge) {
+					$this->_store('default', $header, $sentence);
 				}
 			}
 		}
@@ -579,23 +572,19 @@ class ExtractTask extends AppShell {
 /**
  * Prepare a file to be stored
  *
- * @param string $category
  * @param string $domain
  * @param string $header
  * @param string $sentence
  * @return void
  */
-	protected function _store($category, $domain, $header, $sentence) {
-		if (!isset($this->_storage[$category])) {
-			$this->_storage[$category] = array();
+	protected function _store($domain, $header, $sentence) {
+		if (!isset($this->_storage[$domain])) {
+			$this->_storage[$domain] = array();
 		}
-		if (!isset($this->_storage[$category][$domain])) {
-			$this->_storage[$category][$domain] = array();
-		}
-		if (!isset($this->_storage[$category][$domain][$sentence])) {
-			$this->_storage[$category][$domain][$sentence] = $header;
+		if (!isset($this->_storage[$domain][$sentence])) {
+			$this->_storage[$domain][$sentence] = $header;
 		} else {
-			$this->_storage[$category][$domain][$sentence] .= $header;
+			$this->_storage[$domain][$sentence] .= $header;
 		}
 	}
 
@@ -609,42 +598,36 @@ class ExtractTask extends AppShell {
 		if (!empty($this->params['overwrite'])) {
 			$overwriteAll = true;
 		}
-		foreach ($this->_storage as $category => $domains) {
-			foreach ($domains as $domain => $sentences) {
-				$output = $this->_writeHeader();
-				foreach ($sentences as $sentence => $header) {
-					$output .= $header . $sentence;
-				}
 
-				$filename = $domain . '.pot';
-				if ($category === 'LC_MESSAGES') {
-					$File = new File($this->_output . $filename);
-				} else {
-					new Folder($this->_output . $category, true);
-					$File = new File($this->_output . $category . DS . $filename);
-				}
-				$response = '';
-				while ($overwriteAll === false && $File->exists() && strtoupper($response) !== 'Y') {
-					$this->out();
-					$response = $this->in(
-						__d('cake_console', 'Error: %s already exists in this location. Overwrite? [Y]es, [N]o, [A]ll', $filename),
-						array('y', 'n', 'a'),
-						'y'
-					);
-					if (strtoupper($response) === 'N') {
-						$response = '';
-						while (!$response) {
-							$response = $this->in(__d('cake_console', "What would you like to name this file?"), null, 'new_' . $filename);
-							$File = new File($this->_output . $response);
-							$filename = $response;
-						}
-					} elseif (strtoupper($response) === 'A') {
-						$overwriteAll = true;
-					}
-				}
-				$File->write($output);
-				$File->close();
+		foreach ($this->_storage as $domain => $sentences) {
+			$output = $this->_writeHeader();
+			foreach ($sentences as $sentence => $header) {
+				$output .= $header . $sentence;
 			}
+
+			$filename = $domain . '.pot';
+			$File = new File($this->_output . $filename);
+			$response = '';
+			while ($overwriteAll === false && $File->exists() && strtoupper($response) !== 'Y') {
+				$this->out();
+				$response = $this->in(
+					__d('cake_console', 'Error: %s already exists in this location. Overwrite? [Y]es, [N]o, [A]ll', $filename),
+					array('y', 'n', 'a'),
+					'y'
+				);
+				if (strtoupper($response) === 'N') {
+					$response = '';
+					while (!$response) {
+						$response = $this->in(__d('cake_console', "What would you like to name this file?"), null, 'new_' . $filename);
+						$File = new File($this->_output . $response);
+						$filename = $response;
+					}
+				} elseif (strtoupper($response) === 'A') {
+					$overwriteAll = true;
+				}
+			}
+			$File->write($output);
+			$File->close();
 		}
 	}
 
@@ -682,7 +665,7 @@ class ExtractTask extends AppShell {
 	protected function _getStrings(&$position, $target) {
 		$strings = array();
 		$count = count($strings);
-		while ($count < $target && ($this->_tokens[$position] === ',' || $this->_tokens[$position][0] == T_CONSTANT_ENCAPSED_STRING || $this->_tokens[$position][0] == T_LNUMBER)) {
+		while ($count < $target && ($this->_tokens[$position] === ',' || $this->_tokens[$position][0] == T_CONSTANT_ENCAPSED_STRING)) {
 			$count = count($strings);
 			if ($this->_tokens[$position][0] == T_CONSTANT_ENCAPSED_STRING && $this->_tokens[$position + 1] === '.') {
 				$string = '';
@@ -695,8 +678,6 @@ class ExtractTask extends AppShell {
 				$strings[] = $string;
 			} elseif ($this->_tokens[$position][0] == T_CONSTANT_ENCAPSED_STRING) {
 				$strings[] = $this->_formatString($this->_tokens[$position][1]);
-			} elseif ($this->_tokens[$position][0] == T_LNUMBER) {
-				$strings[] = $this->_tokens[$position][1];
 			}
 			$position++;
 		}

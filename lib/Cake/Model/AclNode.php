@@ -85,7 +85,7 @@ class AclNode extends Model {
 				'joins' => array(array(
 					'table' => $table,
 					'alias' => "{$type}0",
-					'type' => 'INNER',
+					'type' => 'LEFT',
 					'conditions' => array("{$type}0.alias" => $start)
 				)),
 				'order' => $db->name("{$type}.lft") . ' DESC'
@@ -97,7 +97,7 @@ class AclNode extends Model {
 				$queryData['joins'][] = array(
 					'table' => $table,
 					'alias' => "{$type}{$i}",
-					'type' => 'INNER',
+					'type' => 'LEFT',
 					'conditions' => array(
 						$db->name("{$type}{$i}.lft") . ' > ' . $db->name("{$type}{$j}.lft"),
 						$db->name("{$type}{$i}.rght") . ' < ' . $db->name("{$type}{$j}.rght"),
@@ -163,7 +163,7 @@ class AclNode extends Model {
 				'joins' => array(array(
 					'table' => $table,
 					'alias' => "{$type}0",
-					'type' => 'INNER',
+					'type' => 'LEFT',
 					'conditions' => array(
 						$db->name("{$type}.lft") . ' <= ' . $db->name("{$type}0.lft"),
 						$db->name("{$type}.rght") . ' >= ' . $db->name("{$type}0.rght")

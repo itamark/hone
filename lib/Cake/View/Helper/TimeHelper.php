@@ -361,7 +361,7 @@ class TimeHelper extends AppHelper {
 	public function timeAgoInWords($dateTime, $options = array()) {
 		$element = null;
 
-		if (!empty($options['element'])) {
+		if (is_array($options) && !empty($options['element'])) {
 			$element = array(
 				'tag' => 'span',
 				'class' => 'time-ago-in-words',

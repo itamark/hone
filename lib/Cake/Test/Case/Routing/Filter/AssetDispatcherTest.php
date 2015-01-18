@@ -30,7 +30,6 @@ class AssetDispatcherTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		parent::tearDown();
 		Configure::write('Dispatcher.filters', array());
 	}
 

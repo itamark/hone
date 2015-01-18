@@ -70,17 +70,17 @@ class AppController extends Controller
 
       # Manually login the user
       if( $this->Auth->login($user['User']) ){
-        $this->redirect('/home');
+        $this->redirect('/');
       }
 
       # Redirect to home if is logged in
       if($this->Auth->loggedIn() && $this->params->controller == 'users' && $this->params->action == 'login')
-        $this->redirect('/home');
+        $this->redirect('/');
       }
 
 	  if( $this->params->params['controller'] == 'users' && $this->params->params['action'] == 'login' && AuthComponent::user('id'))
 	  {
-		  $this->redirect('/home');
+		  $this->redirect('/');
 	  }
 
 	  if( $this->params->params['controller'] == 'users' && $this->params->params['action'] == 'login'){
@@ -185,5 +185,4 @@ class AppController extends Controller
 
 	}
 }
-
 

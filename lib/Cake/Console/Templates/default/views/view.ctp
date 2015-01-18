@@ -94,6 +94,7 @@ if (empty($associations['hasAndBelongsToMany'])) {
 	$associations['hasAndBelongsToMany'] = array();
 }
 $relations = array_merge($associations['hasMany'], $associations['hasAndBelongsToMany']);
+$i = 0;
 foreach ($relations as $alias => $details):
 	$otherSingularVar = Inflector::variable($alias);
 	$otherPluralHumanName = Inflector::humanize($details['controller']);
@@ -101,7 +102,7 @@ foreach ($relations as $alias => $details):
 <div class="related">
 	<h3><?php echo "<?php echo __('Related " . $otherPluralHumanName . "'); ?>"; ?></h3>
 	<?php echo "<?php if (!empty(\${$singularVar}['{$alias}'])): ?>\n"; ?>
-	<table cellpadding = "0" cellspacing = "0" class="table table-bordered">
+	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 <?php
 			foreach ($details['fields'] as $field) {
@@ -111,7 +112,9 @@ foreach ($relations as $alias => $details):
 		<th class="actions"><?php echo "<?php echo __('Actions'); ?>"; ?></th>
 	</tr>
 <?php
-echo "\t<?php foreach (\${$singularVar}['{$alias}'] as \${$otherSingularVar}): ?>\n";
+echo "\t<?php
+		\$i = 0;
+		foreach (\${$singularVar}['{$alias}'] as \${$otherSingularVar}): ?>\n";
 		echo "\t\t<tr>\n";
 			foreach ($details['fields'] as $field) {
 				echo "\t\t\t<td><?php echo \${$otherSingularVar}['{$field}']; ?></td>\n";

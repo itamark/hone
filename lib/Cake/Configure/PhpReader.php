@@ -71,7 +71,7 @@ class PhpReader implements ConfigReaderInterface {
 
 		include $file;
 		if (!isset($config)) {
-			throw new ConfigureException(__d('cake_dev', 'No variable %s found in %s', '$config', $file));
+			throw new ConfigureException(__d('cake_dev', 'No variable $config found in %s', $file));
 		}
 		return $config;
 	}

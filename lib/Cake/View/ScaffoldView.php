@@ -58,7 +58,7 @@ class ScaffoldView extends View {
 
 		$scaffoldAction = 'scaffold.' . $name;
 
-		if ($this->subDir !== null) {
+		if (!is_null($this->subDir)) {
 			$subDir = strtolower($this->subDir) . DS;
 		} else {
 			$subDir = null;

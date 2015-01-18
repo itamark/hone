@@ -78,6 +78,24 @@ class MyAppSchema extends CakeSchema {
 	protected $_foo = array('bar');
 
 /**
+ * setup method
+ *
+ * @param mixed $version
+ * @return void
+ */
+	public function setup($version) {
+	}
+
+/**
+ * teardown method
+ *
+ * @param mixed $version
+ * @return void
+ */
+	public function teardown($version) {
+	}
+
+/**
  * getVar method
  *
  * @param string $var Name of var
@@ -790,13 +808,13 @@ class CakeSchemaTest extends CakeTestCase {
 		$compare = $New->compare($this->Schema, $tables);
 		$expected = array(
 			'ratings' => array(
-				'create' => array(
+				'add' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => null),
-					'model' => array('type' => 'varchar', 'null' => false, 'default' => null),
-					'value' => array('type' => 'float', 'null' => false, 'length' => '5,2', 'default' => null),
-					'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
-					'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
+					'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => null, 'after' => 'id'),
+					'model' => array('type' => 'varchar', 'null' => false, 'default' => null, 'after' => 'foreign_key'),
+					'value' => array('type' => 'float', 'null' => false, 'length' => '5,2', 'default' => null, 'after' => 'model'),
+					'created' => array('type' => 'datetime', 'null' => false, 'default' => null, 'after' => 'value'),
+					'modified' => array('type' => 'datetime', 'null' => false, 'default' => null, 'after' => 'created'),
 					'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 				)

@@ -591,7 +591,7 @@ class Set {
 					}
 				}
 				return $tmp;
-			} elseif (strpos($key, '{') !== false && strpos($key, '}') !== false) {
+			} elseif (false !== strpos($key, '{') && false !== strpos($key, '}')) {
 				$pattern = substr($key, 1, -1);
 
 				foreach ($data as $j => $val) {
@@ -935,7 +935,7 @@ class Set {
 		$stack = array();
 		foreach ($results as $k => $r) {
 			$id = $k;
-			if ($key !== null) {
+			if (!is_null($key)) {
 				$id = $key;
 			}
 			if (is_array($r) && !empty($r)) {

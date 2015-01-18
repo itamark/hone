@@ -260,7 +260,7 @@ class RssHelper extends AppHelper {
 				default:
 					$attrib = $att;
 			}
-			if ($val !== null && $escape) {
+			if (!is_null($val) && $escape) {
 				$val = h($val);
 			}
 			$elements[$key] = $this->elem($key, $attrib, $val);

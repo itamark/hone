@@ -289,7 +289,7 @@ class ClassRegistry {
 		if (empty($param) && is_array($type)) {
 			$param = $type;
 			$type = 'Model';
-		} elseif ($param === null) {
+		} elseif (is_null($param)) {
 			unset($_this->_config[$type]);
 		} elseif (empty($param) && is_string($type)) {
 			return isset($_this->_config[$type]) ? $_this->_config[$type] : null;

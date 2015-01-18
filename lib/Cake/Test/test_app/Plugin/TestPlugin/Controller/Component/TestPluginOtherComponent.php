@@ -19,9 +19,9 @@
  */
 
 /**
- * Class TestPluginOtherComponent
+ * Class TestPluginOtherComponentComponent
  *
  * @package       Cake.Test.TestApp.Plugin.TestPlugin.Controller.Component
  */
-class TestPluginOtherComponent extends Component {
+class TestPluginOtherComponentComponent extends Object {
 }

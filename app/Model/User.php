@@ -14,6 +14,40 @@ class User extends AppModel
     return true;
   }
 
+  /**
+ * hasMany associations
+ *
+ * @var array
+ */
+  public $hasMany = array(
+    'Item' => array(
+      'className' => 'Item',
+      'foreignKey' => 'user_id',
+      'dependent' => false,
+      'conditions' => '',
+      'fields' => '',
+      'order' => '',
+      'limit' => '',
+      'offset' => '',
+      'exclusive' => '',
+      'finderQuery' => '',
+      'counterQuery' => ''
+    ),
+    'Comment' => array(
+      'className' => 'Comment',
+      'foreignKey' => 'user_id',
+      'dependent' => false,
+      'conditions' => '',
+      'fields' => '',
+      'order' => '',
+      'limit' => '',
+      'offset' => '',
+      'exclusive' => '',
+      'finderQuery' => '',
+      'counterQuery' => ''
+    )
+  );
+
   public $validate = array(
     'username' => array(
       array(

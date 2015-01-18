@@ -34,7 +34,7 @@ App::uses('LogEngineCollection', 'Log');
  * A sample configuration would look like:
  *
  * {{{
- * CakeLog::config('my_log', array('engine' => 'File'));
+ * CakeLog::config('my_log', array('engine' => 'FileLog'));
  * }}}
  *
  * See the documentation on CakeLog::config() for more detail.
@@ -133,7 +133,7 @@ class CakeLog {
  *
  * {{{
  * CakeLog::config('second_file', array(
- *     'engine' => 'File',
+ *     'engine' => 'FileLog',
  *     'path' => '/var/logs/my_app/'
  * ));
  * }}}
@@ -169,7 +169,6 @@ class CakeLog {
  * {{{
  * CakeLog::config('payments', array(
  *     'engine' => 'File',
- *     'types' => array('info', 'error', 'warning'),
  *     'scopes' => array('payment', 'order')
  * ));
  * }}}
@@ -379,7 +378,7 @@ class CakeLog {
  */
 	protected static function _autoConfig() {
 		self::$_Collection->load('default', array(
-			'engine' => 'File',
+			'engine' => 'FileLog',
 			'path' => LOGS,
 		));
 	}

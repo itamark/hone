@@ -95,9 +95,9 @@ class PaginatorHelper extends AppHelper {
 		App::uses($ajaxProvider . 'Helper', 'View/Helper');
 		$classname = $ajaxProvider . 'Helper';
 		if (!class_exists($classname) || !method_exists($classname, 'link')) {
-			throw new CakeException(
-				__d('cake_dev', '%s does not implement a %s method, it is incompatible with %s', $classname, 'link()', 'PaginatorHelper')
-			);
+			throw new CakeException(sprintf(
+				__d('cake_dev', '%s does not implement a link() method, it is incompatible with PaginatorHelper'), $classname
+			));
 		}
 		parent::__construct($View, $settings);
 	}
@@ -131,22 +131,6 @@ class PaginatorHelper extends AppHelper {
 			return null;
 		}
 		return $this->request->params['paging'][$model];
-	}
-
-/**
- * Convenience access to any of the paginator params.
- *
- * @param string $key Key of the paginator params array to retreive.
- * @param string $model Optional model name. Uses the default if none is specified.
- * @return mixed Content of the requested param.
- * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/paginator.html#PaginatorHelper::params
- */
-	public function param($key, $model = null) {
-		$params = $this->params($model);
-		if (!isset($params[$key])) {
-			return null;
-		}
-		return $params[$key];
 	}
 
 /**
@@ -427,12 +411,7 @@ class PaginatorHelper extends AppHelper {
 			$url = array_merge($url, compact('sort', 'direction'));
 		}
 		$url = $this->_convertUrlKeys($url, $paging['paramType']);
-		if (!empty($url['page']) && $url['page'] == 1) {
-			$url['page'] = null;
-		}
-		if (!empty($url['?']['page']) && $url['?']['page'] == 1) {
-			unset($url['?']['page']);
-		}
+
 		if ($asArray) {
 			return $url;
 		}

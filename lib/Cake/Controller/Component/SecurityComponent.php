@@ -226,14 +226,14 @@ class SecurityComponent extends Component {
 		$this->_secureRequired($controller);
 		$this->_authRequired($controller);
 
-		$isPost = $this->request->is(array('post', 'put'));
+		$isPost = ($this->request->is('post') || $this->request->is('put'));
 		$isNotRequestAction = (
 			!isset($controller->request->params['requested']) ||
 			$controller->request->params['requested'] != 1
 		);
 
 		if ($this->_action == $this->blackHoleCallback) {
-			return $this->blackHole($controller, 'auth');
+			return $this->blackhole($controller, 'auth');
 		}
 
 		if (!in_array($this->_action, (array)$this->unlockedActions) && $isPost && $isNotRequestAction) {
