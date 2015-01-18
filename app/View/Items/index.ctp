@@ -3,25 +3,31 @@
  --><!-- 	<?php print_r($authUser); ?>
  -->	<div class="row">
 			<div class="col l8">
+<div class="card">
+	<div class="card-content">
 <?php echo $this->Form->create(null, array('url'=>'/items/add')); ?>
 <!-- 		<legend><?php echo __('Add Item'); ?></legend>
  -->		
 				<?php
 		
 		echo $this->Form->input('user_id', array('options' => $users, 'default' => AuthComponent::user('id'), 'type' => 'hidden'));
-		echo $this->Form->input('title', array('type' => 'hidden'));
+		echo $this->Form->input('title');
 		
-		echo $this->Form->input('description', array('label' => 'Ask and share...'));
-		echo $this->Form->input('url', array('type' => 'hidden'));
-		echo $this->Form->input('topic_id', array('options' => $topics));
+		echo $this->Form->input('url', array('label' => 'URL'));
+				echo $this->Form->input('description', array('label' => 'Tell us about it'));
+
+		echo $this->Form->input('topic_id', array('options' => $topics, 'empty' => 'Select a Language', 'label' => ''));
 	?>
 			
 	
 <?php echo $this->Form->end(__('Post')); ?>
+</div>
+</div>
+
 <?php foreach ($items as $item): ?>
 <div class="card">
             <div class="card-content">
-              <span class="card-title grey-text"><?php echo h($item['Item']['description']); ?></span>
+              <a class="grey-text" target="_blank" href="<?php echo h($item['Item']['url']); ?>"><?php echo h($item['Item']['description']); ?></a>
 
 </div>
 		</div>

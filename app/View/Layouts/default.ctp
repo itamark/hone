@@ -38,8 +38,8 @@ $cakeDescription = __d('cake_dev', 'Hone');
 
 </head>
 <body>
-
-	 <nav class="teal">
+<div class="navbar-fixed">
+	 <nav class="blue">
       <div class="nav-wrapper container">
         <a href="/" class="brand-logo">Hone</a>
         <ul id="nav-mobile" class="right side-nav">
@@ -64,6 +64,7 @@ $cakeDescription = __d('cake_dev', 'Hone');
 
       </div>
     </nav>
+</div>
 	<div id="container" class="container">
 		<!-- <div id="header">
 			<h1><?php echo $this->Html->link($cakeDescription, '/'); ?></h1>
@@ -93,7 +94,6 @@ $(".dropdown-button").dropdown({hover: false});
 	      </script>
 	      		      <script type="text/javascript" src="/js/scripts.js"></script>
 
-	      	     
 
 
 </body>
